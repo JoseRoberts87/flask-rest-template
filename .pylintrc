@@ -1,0 +1,17 @@
+[MASTER]
+disable=
+    W0703, # Catching too general exception Exception (broad-except)
+    C0301, # Line too long (line-too-long)
+    E1101, # Module 'pymssql' has no 'connect' member (no-member)
+    C0209, # Formatting a regular string which could be a f-string (consider-using-f-string)
+    W0613, # Unused argument 'context' (unused-argument)
+    R0914, # Too many local variables (too-many-locals)
+    W0511, # Ignore TODO: 
+    W1401, # Anomalous backslash in string
+    R0915, # Too many statements (64/50)
+    C0103, # Argument name "df" doesn't conform to snake_case naming style
+
+    C0114, # Missing module docstring (missing-module-docstring)
+    C0116, # Missing function or method docstring (missing-function-docstring)
+    C0115, # Missing class docstring (missing-class-docstring)
+    R0903, # Too few public methods
