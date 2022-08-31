@@ -22,7 +22,8 @@ class MediaHandler(MethodResource, Resource):
         scheme = SecondResponseSchema()
         response = {
             "message": "this is a sample response from the '/api' endpoint in flask Container",
-            "active": False, }
+            "active": False,
+        }
 
         error = scheme.validate(response)
         print(error)

@@ -1,35 +1,19 @@
 
-from typing import Dict
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api
 from flask_restful.utils import cors
-from flask_migrate import upgrade, downgrade
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
-
-from flask_apispec import marshal_with, doc, use_kwargs
+from flask_apispec import marshal_with, doc
 from flask_apispec.views import MethodResource
-
 
 from src import v1
 from src.common.db import db, ma, migrate
 from src.docs import docs
-from src.common.types import SecondResponseSchema, SimpleResponseSchema, SimpleRequestSchema
-from src .v1 import ApiMainHandler
+from src.common.types import SimpleResponseSchema, SimpleRequestSchema
+from src.v1 import ApiMainHandler
 from src.v1.friends import FriendsHandler
 from src.v1.media import MediaHandler
-
-
-def alembic_upgrade(app: Flask):
-    """Upgrades the database to the latest revision"""
-    with app.app_context():
-        upgrade()
-
-
-def alembic_downgrade(app: Flask):
-    """Downgrades the database to the previous revision"""
-    with app.app_context():
-        downgrade()
 
 
 def create_app(context_config="DevelopmentConfig"):
@@ -74,16 +58,15 @@ def create_app(context_config="DevelopmentConfig"):
         @marshal_with(SimpleResponseSchema)
         @cors.crossdomain(origin="*")
         def get(self) -> SimpleResponseSchema:
-            return {"data": "Hello World!"}
+            return {"message": "Hello World!"}
 
         @doc(description="My First GET Awesome API.", tags=["Awesome"])
-        @use_kwargs(SimpleRequestSchema, location=("json"))
+        # @use_kwargs(SimpleRequestSchema, location=("json"))
         @marshal_with(SimpleResponseSchema)  # marshalling
         def post(self) -> SimpleResponseSchema:
-            """
-            Get method represents a GET API method
-            """
-            return {"message": "My First Awesome API"}
+            json_data = request.get_json(force=True)
+
+            return json_data
 
     api.add_resource(MainHandler, "/")
     api.add_resource(ApiMainHandler, "/api/")
